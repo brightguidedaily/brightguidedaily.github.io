@@ -1,0 +1,35 @@
+name: Unzip site package
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Replace repo contents with ZIP contents
+        run: |
+          set -e
+          ls -la
+          find . -mindepth 1 -maxdepth 1 ! -name '.git' ! -name '.github' ! -name 'blogsite-github.zip' -exec rm -rf {} +
+          unzip -o blogsite-github.zip -d .
+          rm -rf __MACOSX
+          if [ ! -f index.html ]; then
+            top=$(ls -d */ 2>/dev/null | head -n 1)
+            if [ -n "$top" ] && [ -f "${top}index.html" ]; then
+              mv "${top}"* . 2>/dev/null || true
+              mv "${top}".[!.]* . 2>/dev/null || true
+              rmdir "$top"
+            fi
+          fi
+          rm -f blogsite-github.zip
+          rm -rf .github
+          echo '--- tree after unzip ---'
+          find . -path ./.git -prune -o -type f -print | sort
+          git config user.name "brightguidedaily"
+          git config user.email "bakshbila034@gmail.com"
+          git add -A
+          git status --short
+          git commit -m "Upload complete BrightGuide Daily site from blogsite-github.zip"
+          git push
