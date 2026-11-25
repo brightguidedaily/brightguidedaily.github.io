@@ -1,3 +1,1 @@
-google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
-# IMPORTANT: XXXXXXXXXXXXXXXX ki jagah apna asal AdSense Publisher ID likho (pub- ke baad wale 16 digits).
-# Apna ID AdSense account > Settings > Account information mein milta hai.
+google.com, pub-3820819246859243, DIRECT, f08c47fec0942fa0
